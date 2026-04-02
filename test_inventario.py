@@ -36,7 +36,7 @@ class TestSistemaInventario(unittest.TestCase):
         p2 = Producto("DBL01", "Copia", "Cat", 20.0)
         
         self.inventario.agregar(p1)
-        # Aquí verificamos que tu cambio en 'agregar' funcione:
+        # Aquí verificamos que el último cambio en 'agregar' funcione:
         with self.assertRaises(ValueError):
             self.inventario.agregar(p2)
 
