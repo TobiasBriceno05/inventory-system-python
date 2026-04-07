@@ -1,46 +1,44 @@
-# 🛒 Sistema de Gestión de Inventario para Bodegón
+# 📦 Sistema Versátil de Gestión de Inventarios (Python + JSON)
 
 ![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![JSON](https://img.shields.io/badge/Persistencia-JSON-000000?style=for-the-badge&logo=json&logoColor=white)
 ![Status](https://img.shields.io/badge/Fase-1%20(Completada)-success?style=for-the-badge)
 ![Testing](https://img.shields.io/badge/Tests-unittest-169b62?style=for-the-badge&logo=python&logoColor=white)
 
-Software de línea de comandos para la gestión profesional de existencias, diseñado bajo principios de **Programación Orientada a Objetos (POO)** y **Defensa en Profundidad**. Esta versión está optimizada para el flujo de trabajo de un bodegón, permitiendo el control de entradas, salidas y valoración de activos.
+Motor de gestión de existencias de propósito general, desarrollado bajo principios de **Programación Orientada a Objetos (POO)**. Este sistema proporciona una infraestructura robusta para el control de activos, permitiendo su adaptación a cualquier sector (comercio, tecnología, suministros médicos o ferretería) mediante una arquitectura basada en identificadores únicos (IDs).
 
 ---
 
-## 🚀 Funcionalidades Principales
+## 🚀 Funcionalidades Universales
 
-| Módulo | Descripción |
+| Módulo | Descripción Técnica |
 | :--- | :--- |
-| **Gestión de Stock** | Control de cantidades por producto con validación de stock mínimo y prevención de valores negativos. |
-| **Entradas y Salidas** | Submenús especializados para crear nuevos SKUs o reabastecer productos existentes por ID. |
-| **Análisis Financiero** | Cálculo automático del valor total del inventario ($\sum precio \times cantidad$). |
-| **Reportes Visuales** | Visualización tabular alineada con alertas automáticas de **Bajo Stock** (< 5 unidades). |
-| **Persistencia Robusta** | Almacenamiento en JSON con manejo de errores para archivos vacíos o corruptos. |
+| **Control de Stock Dinámico** | Gestión de cantidades con lógica de prevención de inventario negativo y validación de integridad. |
+| **Transacciones de Almacén** | Flujos de entrada (abastecimiento) y salida (consumo/venta) optimizados mediante búsqueda por ID. |
+| **Valoración de Activos** | Cálculo automatizado del valor total de la mercancía basado en el coste unitario y existencias actuales. |
+| **Reportes Analíticos** | Visualización de datos en formato tabular con indicadores de stock crítico para reposición. |
+| **Capa de Persistencia** | Serialización de datos en JSON con mecanismos de recuperación ante archivos vacíos o corruptos. |
 
 ---
 
-## 🏗️ Arquitectura del Sistema
+## 🏗️ Arquitectura del Software
 
-El proyecto se divide en tres capas lógicas para asegurar la integridad de los datos:
+El sistema implementa una separación de responsabilidades para garantizar la escalabilidad:
 
-1.  **Capa de Dominio (Modelo):** La clase `Producto` es la única responsable de validar que un precio o cantidad no nazca muerto (negativo).
-2.  **Capa de Lógica (Controlador):** La clase `Inventario` gestiona el estado en memoria y asegura que cada cambio se sincronice con el almacenamiento.
-3.  **Capa de Interfaz (Vista):** El menú captura excepciones de tipo `ValueError` y `KeyError`, evitando que errores de usuario cierren el programa.
+1.  **Modelo (`Producto`):** Entidad encargada de la validación de reglas de negocio atómicas (precio, cantidad y formato de datos).
+2.  **Lógica (`Inventario`):** Controlador de alto nivel que gestiona el estado de los datos en memoria y coordina la persistencia en disco.
+3.  **Interfaz (`CLI`):** Capa de interacción que abstrae la complejidad técnica al usuario, gestionando excepciones para mantener la estabilidad del proceso.
 
 ---
 
-## 📊 Eficiencia y Algoritmos
+## 📊 Eficiencia Algorítmica
 
-Al utilizar diccionarios de Python (Hash Maps) indexados por el **ID del Producto**, el sistema garantiza una velocidad constante independientemente del tamaño del inventario.
+El núcleo del sistema utiliza **Tablas Hash (Diccionarios)** para garantizar que el rendimiento no se degrade con el volumen de datos:
 
-* **Búsqueda por ID:** $O(1)$ - Instantánea.
-* **Actualización de Stock:** $O(1)$ - Sin necesidad de recorrer listas.
-* **Eliminación:** $O(1)$ - Acceso directo a la clave.
-* **Cálculo de Total:** $O(n)$ - Un único recorrido lineal.
-
-
+* **Acceso/Búsqueda por ID:** $O(1)$ - Tiempo constante.
+* **Inserción y Actualización:** $O(1)$ - Sin necesidad de iteraciones.
+* **Eliminación:** $O(1)$ - Remoción directa por clave.
+* **Cálculo de Activos:** $O(n)$ - Recorrido lineal optimizado.
 
 ---
 
@@ -48,35 +46,34 @@ Al utilizar diccionarios de Python (Hash Maps) indexados por el **ID del Product
 
 ### Requisitos
 * Python 3.10 o superior.
-* No requiere dependencias externas (Standard Library).
+* Sin dependencias externas (Standard Library).
 
 ### Ejecución
 ```bash
 python Inventario.py
-Flujo de Trabajo Recomendado
-Registrar: Use la opción 1.1 para meter un producto nuevo al catálogo.
+Flujo de Trabajo Versátil
+El sistema se adapta a cualquier inventario mediante este ciclo:
 
-Reabastecer: Use la opción 1.2 cuando llegue mercancía nueva de un producto ya registrado.
+Catalogar: Registre el producto/activo por primera vez (Opción 1.1).
 
-Vender: Use la opción 2.2 para descontar unidades del stock tras una venta.
+Ingresar: Aumente las unidades cuando reciba nuevos suministros (Opción 1.2).
 
-Auditar: Use la opción 4 para ver el valor monetario de su bodega.
+Egresar: Reduzca el stock tras una venta, uso o retiro del almacén (Opción 2.2).
 
-🧪 Testing
-El proyecto incluye una suite de pruebas unitarias para garantizar que las reglas de negocio se cumplan siempre.
-Para ejecutar los tests:
+Auditar: Visualice el estado actual y valor monetario del inventario (Opción 4).
+
+🧪 Suite de Pruebas
+Para garantizar que los cambios futuros (como la migración a SQL) no rompan la lógica actual, se incluye una batería de tests unitarios:
 
 Bash
 python -m unittest test_inventario.py
 🗺️ Roadmap: Hacia la Fase 2
-La estructura actual ha sido diseñada para facilitar la migración al siguiente nivel:
+[ ] Motor Relacional: Migración de almacenamiento JSON a SQLite para soporte de transacciones complejas.
 
-[ ] Migración a SQLite: Reemplazar el motor JSON por una base de datos relacional.
+[ ] Historial de Movimientos: Implementación de logs para auditoría de entradas y salidas.
 
-[ ] Historial de Transacciones: Tabla de logs para rastrear quién y cuándo modificó el stock.
-
-[ ] Exportación a PDF: Generación de reportes de inventario y facturas simples.
+[ ] Búsqueda Avanzada: Filtros dinámicos por categorías o rangos de precios.
 
 <p align="center">
-<sub>Desarrollado como proyecto académico - Ciencias de la Computación (UCV)</sub>
+<sub>Proyecto Académico de Ciencias de la Computación (UCV)</sub>
 </p>
