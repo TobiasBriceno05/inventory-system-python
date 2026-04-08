@@ -1,79 +1,71 @@
-# 📦 Sistema Versátil de Gestión de Inventarios (Python + JSON)
+# 📦 OmniStock: Sistema de Gestión de Inventarios con SQLite
 
-![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![JSON](https://img.shields.io/badge/Persistencia-JSON-000000?style=for-the-badge&logo=json&logoColor=white)
-![Status](https://img.shields.io/badge/Fase-1%20(Completada)-success?style=for-the-badge)
-![Testing](https://img.shields.io/badge/Tests-unittest-169b62?style=for-the-badge&logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-3-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![Status](https://img.shields.io/badge/Estado-Producción_Lista-success?style=for-the-badge)
 
-Motor de gestión de existencias de propósito general, desarrollado bajo principios de **Programación Orientada a Objetos (POO)**. Este sistema proporciona una infraestructura robusta para el control de activos, permitiendo su adaptación a cualquier sector (comercio, tecnología, suministros médicos o ferretería) mediante una arquitectura basada en identificadores únicos (IDs).
-
----
-
-## 🚀 Funcionalidades Universales
-
-| Módulo | Descripción Técnica |
-| :--- | :--- |
-| **Control de Stock Dinámico** | Gestión de cantidades con lógica de prevención de inventario negativo y validación de integridad. |
-| **Transacciones de Almacén** | Flujos de entrada (abastecimiento) y salida (consumo/venta) optimizados mediante búsqueda por ID. |
-| **Valoración de Activos** | Cálculo automatizado del valor total de la mercancía basado en el coste unitario y existencias actuales. |
-| **Reportes Analíticos** | Visualización de datos en formato tabular con indicadores de stock crítico para reposición. |
-| **Capa de Persistencia** | Serialización de datos en JSON con mecanismos de recuperación ante archivos vacíos o corruptos. |
+**OmniStock** es una solución de consola de alto rendimiento para el control de existencias, migrada de una arquitectura estática a un motor relacional basado en **SQLite3**. Diseñada bajo principios de **Programación Orientada a Objetos (POO)**, la aplicación garantiza la persistencia real de los datos y una integridad lógica superior.
 
 ---
 
-## 🏗️ Arquitectura del Software
+## 🚀 Características Principales
 
-El sistema implementa una separación de responsabilidades para garantizar la escalabilidad:
-
-1.  **Modelo (`Producto`):** Entidad encargada de la validación de reglas de negocio atómicas (precio, cantidad y formato de datos).
-2.  **Lógica (`Inventario`):** Controlador de alto nivel que gestiona el estado de los datos en memoria y coordina la persistencia en disco.
-3.  **Interfaz (`CLI`):** Capa de interacción que abstrae la complejidad técnica al usuario, gestionando excepciones para mantener la estabilidad del proceso.
-
----
-
-## 📊 Eficiencia Algorítmica
-
-El núcleo del sistema utiliza **Tablas Hash (Diccionarios)** para garantizar que el rendimiento no se degrade con el volumen de datos:
-
-* **Acceso/Búsqueda por ID:** $O(1)$ - Tiempo constante.
-* **Inserción y Actualización:** $O(1)$ - Sin necesidad de iteraciones.
-* **Eliminación:** $O(1)$ - Remoción directa por clave.
-* **Cálculo de Activos:** $O(n)$ - Recorrido lineal optimizado.
+* **Persistencia Relacional:** Implementación completa con SQLite3 para el almacenamiento persistente, eliminando la volatilidad de datos.
+* **Arquitectura Robusta (POO):** Modelado basado en clases (`Producto`, `Inventario`) que facilita la escalabilidad del código.
+* **Manejo de Errores por Capas:** * *Capa de Interfaz:* Validación de tipos de entrada para prevenir cierres inesperados.
+    * *Capa de Lógica:* Protecciones a nivel de base de datos para evitar stocks negativos o inconsistencias.
+* **Gestión Masiva:** Motor de actualización de precios por categorías y generación de reportes de stock bajo.
+* **Visualización Profesional:** Tablas formateadas en consola para una auditoría rápida de activos.
 
 ---
 
-## 🛠️ Instalación y Uso
+## 🏛️ Arquitectura del Sistema
 
-### Requisitos
-* Python 3.10 o superior.
-* Sin dependencias externas (Standard Library).
+El proyecto sigue una separación de responsabilidades clara para mantener un código limpio y mantenible:
 
-### Ejecución
-```bash
-python Inventario.py
-Flujo de Trabajo Versátil
-El sistema se adapta a cualquier inventario mediante este ciclo:
+1.  **Modelo de Datos (`Producto`):** Clase que encapsula las propiedades del objeto y realiza las validaciones de negocio iniciales (Fail-fast).
+2.  **Controlador de Persistencia (`Inventario`):** Gestiona la conexión con el motor SQLite, las consultas SQL parametrizadas y la integridad de la base de datos.
+3.  **Interfaz de Usuario (`Menu`):** Capa encargada de la interacción con el usuario, sanitizando las entradas antes de enviarlas al controlador.
 
-Catalogar: Registre el producto/activo por primera vez (Opción 1.1).
+---
 
-Ingresar: Aumente las unidades cuando reciba nuevos suministros (Opción 1.2).
+## 🛠️ Tecnologías
 
-Egresar: Reduzca el stock tras una venta, uso o retiro del almacén (Opción 2.2).
+* **Lenguaje:** Python 3.x
+* **Base de Datos:** SQLite3 (Motor relacional embebido)
+* **Librerías:** Uso exclusivo de la **Standard Library** (sin dependencias externas).
 
-Auditar: Visualice el estado actual y valor monetario del inventario (Opción 4).
+---
 
+## 💻 Instalación y Uso
+
+Al no requerir dependencias externas, la puesta en marcha es inmediata:
+
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone [https://github.com/tu-usuario/nombre-del-repo.git](https://github.com/tu-usuario/nombre-del-repo.git)
+    cd nombre-del-repo
+    ```
+
+2.  **Ejecutar la aplicación:**
+    ```bash
+    python Inventario.py
+    ```
+
+### Ejemplo de Visualización
+El sistema genera tablas legibles directamente en la consola:
+```text
++--------+-----------------+--------------+----------+-------+
+| ID     | PRODUCTO        | CATEGORÍA    | PRECIO   | STOCK |
++--------+-----------------+--------------+----------+-------+
+| TECH01 | Laptop Pro      | Tecnología   | $1200.00 |   15  |
+| PERI05 | Mouse Gamer     | Periféricos  | $45.50   |    3  |
++--------+-----------------+--------------+----------+-------+
+[ALERTA]: El producto 'Mouse Gamer' está por debajo del límite de stock.
 🧪 Suite de Pruebas
-Para garantizar que los cambios futuros (como la migración a SQL) no rompan la lógica actual, se incluye una batería de tests unitarios:
+Para garantizar la fiabilidad del sistema, se incluye una batería de pruebas unitarias que validan desde la creación de tablas hasta la lógica de transacciones:
 
 Bash
 python -m unittest test_inventario.py
-🗺️ Roadmap: Hacia la Fase 2
-[ ] Motor Relacional: Migración de almacenamiento JSON a SQLite para soporte de transacciones complejas.
-
-[ ] Historial de Movimientos: Implementación de logs para auditoría de entradas y salidas.
-
-[ ] Búsqueda Avanzada: Filtros dinámicos por categorías o rangos de precios.
-
-<p align="center">
-<sub>Proyecto Académico de Ciencias de la Computación (UCV)</sub>
-</p>
+✒️ Autor
+Tobias Briceño – Desarrollador Principal – Estudiante de Computación en la Universidad Central de Venezuela (UCV).
