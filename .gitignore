@@ -1,0 +1,26 @@
+# Base de Datos
+BaseDeDatos.db
+*.db-journal
+
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+ENV/
+
+# Sistema y Logs
+.DS_Store
+Thumbs.db
+*.log
+logs/
+Registros Financieros/
+*.pdf
+*.md
+
+# Backups
+Backups/
